@@ -1,8 +1,8 @@
 require './board'
 
-class Minesweeper
+class MineSweeper
 
-
+  attr_reader :board
 
   def initialize
     @board = Board.new
@@ -21,13 +21,16 @@ class Minesweeper
     display_board.each do |row|
       puts "||" + row.join("|") + "||"
     end
-    
+
   end
 
   def display_square(tile)
     if tile.revealed?
       if tile.bomb_counter == 0
+        puts "hello world"
         "_"
+      elsif tile.bomb_count.nil?
+        'B'
       else
         tile.bomb_counter.to_s
       end

@@ -1,10 +1,10 @@
 class Tile
-   attr_reader :bomb_count
+   attr_accessor :bomb_count
 
    NEIGHBORS = [
      [1,1],
      [1,0],
-     [-1,0]
+     [-1,0],
      [-1, -1],
      [0, 1],
      [0, -1],
@@ -16,16 +16,17 @@ class Tile
      @board = board
      @bomb_count = 0
      @flagged = false
-     @revealed = false
+     @revealed = true
      @position = pos
   end
 
   def bomb_counter
+    return nil if @bomb_count.nil?
     create_neighbors.each do |neighbor|
       @bomb_count += 1 if neighbor.bombed?
     end
 
-    nil
+    @bomb_count
   end
 
 
@@ -34,7 +35,7 @@ class Tile
 
     NEIGHBORS.each do |neighbor|
 
-      new_pos = [pos[0] + neighbor[0], pos[1] + neighbor[1]]
+      new_pos = [@position[0] + neighbor[0], @position[1] + @position[1]]
 
       if valid_neighbor?(new_pos)
         tile = @board.board[new_pos.first][new_pos.last]

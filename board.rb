@@ -12,12 +12,14 @@ class Board
 
   def create_board
 
-    @board.each do |row|
-      row.each do |cell|
-        @board[row][cell] = Tile.new(@board, ([row, cell]))
+    @board.each_with_index do |row, row_idx|
+      row.count.times do |col_idx|
+        @board[row_idx][col_idx] = Tile.new(self, [row_idx, col_idx])
       end
     end
+
     assign_bombs
+
 
     nil
   end
@@ -36,5 +38,9 @@ class Board
 
   end
 
-  
+  def update_bomb_count
+    
+  end
+
+
 end
