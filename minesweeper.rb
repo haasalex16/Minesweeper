@@ -26,6 +26,9 @@ class MineSweeper
     end
   end
 
+
+  private
+
   def game_won?
     # make sure everything is revealed or
     revealed_count = 0
@@ -45,7 +48,6 @@ class MineSweeper
   def make_move(input)
     move = input[0]
     position = [input[1].to_i, input[2].to_i]
-
     tile = @board.board[position[0]][position[1]]
 
     if move == 'f'
@@ -57,7 +59,6 @@ class MineSweeper
     else
       tile.reveal
     end
-
   end
 
   def read_input
@@ -73,24 +74,26 @@ class MineSweeper
 
   def valid_input?(input)
     return false unless input.count == 3
+
     choice = input[0]
     nums = [input[1].to_i, input[2].to_i]
+
     (choice == 'f' || choice == 'u' || choice == "r") &&
-    nums.all? {|el| el.between?(0,8)}
+    nums.all? { |el| el.between?(0, 8) }
   end
 
   def display
-    display_board = Array.new(9) {Array.new(9)}
+    display_board = create_display_screen
 
-    display_board = @board.board.map do |row|
-      row.map do |tile|
-        display_square(tile)
-      end
-
-    end
     puts "_||#{(0..8).to_a.join("|")}||"
     display_board.each.with_index do |row, idx|
       puts "#{idx}||" + row.join("|") + "||"
+    end
+  end
+
+  def create_display_screen
+    @board.board.map do |row|
+      row.map { |tile| display_square(tile) }
     end
   end
 
@@ -101,18 +104,11 @@ class MineSweeper
       elsif tile.bomb_count.nil?
         'B'
       else
-
         tile.bomb_count.to_s
       end
-
     else
-      if tile.flagged?
-        'F'
-      else
-        "*"
-      end
+      tile.flagged? ? 'F' : '*'
     end
-
   end
 end
 
