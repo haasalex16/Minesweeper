@@ -9,6 +9,18 @@ class Board
     create_board
   end
 
+
+  def show_board
+    act_on_board do |row_idx, col_idx|
+      tile = @board[row_idx][col_idx]
+      tile.revealed = true
+    end
+
+    nil
+  end
+
+  private
+
   def create_board
     act_on_board do |row_idx, col_idx|
       @board[row_idx][col_idx] = Tile.new(self, [row_idx, col_idx])
@@ -30,14 +42,6 @@ class Board
     nil
   end
 
-  def show_board
-    act_on_board do |row_idx, col_idx|
-      tile = @board[row_idx][col_idx]
-      tile.revealed = true
-    end
-
-    nil
-  end
 
   def assign_bombs
     pairs = []

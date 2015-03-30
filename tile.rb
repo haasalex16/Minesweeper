@@ -32,25 +32,23 @@ class Tile
     nil
   end
 
-
   def create_neighbors
     valid_neighbors = []
 
     NEIGHBORS.each do |neighbor|
+      new_pos = [@position.first + neighbor.first, @position.last + neighbor.last]
 
-      new_pos = [@position[0] + neighbor[0], @position[1] + neighbor[1]]
-      # debugger
       if valid_neighbor?(new_pos)
         tile = @board.board[new_pos.first][new_pos.last]
         valid_neighbors << tile
       end
-
     end
+
     valid_neighbors
   end
 
   def valid_neighbor?(pos)
-    pos[0].between?(0, 8) && pos[1].between?(0, 8)
+    pos.first.between?(0, 8) && pos.last.between?(0, 8)
   end
 
   def bombed?
@@ -64,7 +62,6 @@ class Tile
   def flagged?
     @flagged
   end
-
 
   # returns false if there is a bomb in place and true otherwise
   def reveal
@@ -81,5 +78,4 @@ class Tile
 
     true
   end
-
 end
