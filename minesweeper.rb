@@ -43,7 +43,7 @@ class MineSweeper
   def make_move(input)
     move = input[0]
     position = [input[1].to_i, input[2].to_i]
-    tile = @board.board[position[0]][position[1]]
+    tile = @board[position.first][position.last]
 
     if move == 'f'
       tile.flagged = true
@@ -78,7 +78,7 @@ class MineSweeper
   end
 
   def display
-    display_board = create_display_screen
+    display_board = @board.create_display_screen
 
     puts "_||#{(0..8).to_a.join("|")}||"
     display_board.each.with_index do |row, idx|
@@ -86,11 +86,7 @@ class MineSweeper
     end
   end
 
-  def create_display_screen
-    @board.board.map do |row|
-      row.map { |tile| tile.render_display_square }
-    end
-  end
+
 
 end
 

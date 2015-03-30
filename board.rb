@@ -35,8 +35,19 @@ class Board
       end
     end
 
-    revealed_count == BOARD_SIZE - BOMB_COUNT
+    revealed_count == BOARD_SIZE * BOARD_SIZE - BOMB_COUNT
   end
+
+  def create_display_screen
+    @board.map do |row|
+      row.map { | tile | tile.render_display_square }
+    end
+  end
+
+  def [](row)
+    @board[row]
+  end
+
 
 
   private
@@ -71,7 +82,7 @@ class Board
     end
 
     pairs.each do |pair|
-      @board[pair[0]][pair[1]].bomb_count = nil
+      @board[pair.first][pair.last].bomb_count = nil
     end
 
     nil
