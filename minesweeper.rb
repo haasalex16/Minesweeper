@@ -41,19 +41,11 @@ class MineSweeper
 
 
   def make_move(input)
-    move = input[0]
+    move = input.first
     position = [input[1].to_i, input[2].to_i]
     tile = @board[position.first][position.last]
 
-    if move == 'f'
-      tile.flagged = true
-      true
-    elsif move == 'u'
-      tile.flagged = false
-      true
-    else
-      tile.reveal
-    end
+    tile.move(move)
   end
 
   def read_input

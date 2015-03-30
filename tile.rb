@@ -22,6 +22,19 @@ class Tile
      @position = pos
   end
 
+  def move(input)
+    p input
+    if input == 'f'
+      @flagged = true
+      true
+    elsif input == 'u'
+      @flagged = false
+      true
+    else
+      reveal
+    end
+  end
+
   def render_display_square
     if revealed?
       if bomb_count == 0
