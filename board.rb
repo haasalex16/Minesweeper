@@ -19,7 +19,7 @@ class Board
     end
 
     assign_bombs
-
+    update_bomb_count
 
     nil
   end
@@ -39,7 +39,14 @@ class Board
   end
 
   def update_bomb_count
-    
+    @board.each_with_index do |row, row_idx|
+      row.count.times do |col_idx|
+        tile = @board[row_idx][col_idx]
+        tile.bomb_counter
+        puts "hello world"
+      end
+    end
+
   end
 
 

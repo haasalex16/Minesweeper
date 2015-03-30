@@ -1,3 +1,5 @@
+require 'byebug'
+
 class Tile
    attr_accessor :bomb_count
 
@@ -22,11 +24,12 @@ class Tile
 
   def bomb_counter
     return nil if @bomb_count.nil?
+
     create_neighbors.each do |neighbor|
       @bomb_count += 1 if neighbor.bombed?
     end
 
-    @bomb_count
+    nil
   end
 
 
@@ -35,8 +38,8 @@ class Tile
 
     NEIGHBORS.each do |neighbor|
 
-      new_pos = [@position[0] + neighbor[0], @position[1] + @position[1]]
-
+      new_pos = [@position[0] + neighbor[0], @position[1] + neighbor[1]]
+      # debugger
       if valid_neighbor?(new_pos)
         tile = @board.board[new_pos.first][new_pos.last]
         valid_neighbors << tile
@@ -66,7 +69,7 @@ class Tile
   # returns false if there is a bomb in place and true otherwise
   def reveal
     return false if bombed?
-    bomb_counter
+
     @revealed = true
 
     if bomb_count == 0

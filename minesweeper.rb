@@ -26,13 +26,13 @@ class MineSweeper
 
   def display_square(tile)
     if tile.revealed?
-      if tile.bomb_counter == 0
-        puts "hello world"
+      if tile.bomb_count == 0
         "_"
       elsif tile.bomb_count.nil?
         'B'
       else
-        tile.bomb_counter.to_s
+        
+        tile.bomb_count.to_s
       end
 
     else
