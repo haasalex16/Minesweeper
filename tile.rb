@@ -22,7 +22,7 @@ class Tile
 
   def bomb_counter
     create_neighbors.each do |neighbor|
-      @bomb_count += 1 if neighbor.bomb_count.nil?
+      @bomb_count += 1 if neighbor.bombed?
     end
 
     nil
@@ -49,10 +49,22 @@ class Tile
     pos[0].between?(0, 8) && pos[1].between?(0, 8)
   end
 
+  def bombed?
+    bomb_count.nil?
+  end
+
+  def revealed?
+    @revealed
+  end
+
+  def flagged?
+    @flagged
+  end
+
 
   # returns false if there is a bomb in place and true otherwise
   def reveal
-    return false if bomb_count.nil?
+    return false if bombed?
     bomb_counter
     @revealed = true
 
