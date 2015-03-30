@@ -31,7 +31,7 @@ class Board
     end
 
     pairs.each do |pair|
-      @board[pair[0]][pair[1]].bombed = true
+      @board[pair[0]][pair[1]].bomb_count = nil
     end
 
   end

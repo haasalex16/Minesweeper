@@ -1,5 +1,5 @@
 class Tile
-   attr_reader :bombed
+   attr_reader :bomb_count
 
    NEIGHBORS = [
      [1,1],
@@ -14,20 +14,18 @@ class Tile
 
   def initialize(board, pos)
      @board = board
-     @bombed = false
+     @bomb_count = 0
      @flagged = false
      @revealed = false
      @position = pos
   end
 
-  def bomb_count
-    bomb_count = 0
-
+  def bomb_counter
     create_neighbors.each do |neighbor|
-      bomb_count += 1 if neighbor.bombed
+      @bomb_count += 1 if neighbor.bomb_count.nil?
     end
 
-    bomb_count
+    nil
   end
 
 
@@ -52,5 +50,20 @@ class Tile
   end
 
 
+  # returns false if there is a bomb in place and true otherwise
+  def reveal
+    return false if bomb_count.nil?
+    bomb_counter
+    @revealed = true
+
+    if bomb_count == 0
+      neighbors = create_nieghbors
+      neighbors.each do |neighbor|
+        neighbor.reveal
+      end
+    end
+
+    true
+  end
 
 end
