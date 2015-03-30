@@ -23,18 +23,28 @@ class Tile
   def bomb_count
     bomb_count = 0
 
+    create_neighbors.each do |neighbor|
+      bomb_count += 1 if neighbor.bombed
+    end
+
+    bomb_count
+  end
+
+
+  def create_neighbors
+    valid_neighbors = []
+
     NEIGHBORS.each do |neighbor|
 
       new_pos = [pos[0] + neighbor[0], pos[1] + neighbor[1]]
-      if valid_neighbor?(new_pos)
 
+      if valid_neighbor?(new_pos)
         tile = @board.board[new_pos.first][new_pos.last]
-        bomb_count += 1 if tile.bombed
-        
+        valid_neighbors << tile
       end
 
     end
-    bomb_count
+    valid_neighbors
   end
 
   def valid_neighbor?(pos)
