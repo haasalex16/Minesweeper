@@ -24,6 +24,15 @@ class Board
     nil
   end
 
+  def show_board
+    @board.each_with_index do |row, row_idx|
+      row.count.times do |col_idx|
+        tile = @board[row_idx][col_idx]
+        tile.revealed = true
+      end
+    end
+  end
+
   def assign_bombs
     pairs = []
 
@@ -43,7 +52,6 @@ class Board
       row.count.times do |col_idx|
         tile = @board[row_idx][col_idx]
         tile.bomb_counter
-        puts "hello world"
       end
     end
 

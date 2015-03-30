@@ -1,7 +1,7 @@
 require 'byebug'
 
 class Tile
-   attr_accessor :bomb_count
+   attr_accessor :bomb_count, :flagged
 
    NEIGHBORS = [
      [1,1],
@@ -18,7 +18,7 @@ class Tile
      @board = board
      @bomb_count = 0
      @flagged = false
-     @revealed = true
+     @revealed = false
      @position = pos
   end
 
@@ -73,9 +73,9 @@ class Tile
     @revealed = true
 
     if bomb_count == 0
-      neighbors = create_nieghbors
+      neighbors = create_neighbors
       neighbors.each do |neighbor|
-        neighbor.reveal
+        neighbor.reveal unless neighbor.revealed?
       end
     end
 
