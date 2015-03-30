@@ -1,3 +1,5 @@
+require './tile'
+
 class Board
   attr_reader :board
   BOMB_COUNT = 10
@@ -12,16 +14,16 @@ class Board
 
     @board.each do |row|
       row.each do |cell|
-        @board[row][cell] = Tile.new(@board)
+        @board[row][cell] = Tile.new(@board, ([row, cell]))
       end
     end
+    assign_bombs
 
     nil
   end
 
-  def assign_tile_value
+  def assign_bombs
     pairs = []
-
 
     until pairs.length == BOMB_COUNT
       new_pair = [rand((0...9)),rand((0...9))]
@@ -30,13 +32,8 @@ class Board
 
     pairs.each do |pair|
       @board[pair[0]][pair[1]].bombed = true
-
-
     end
-    
 
   end
-
-
 
 end
