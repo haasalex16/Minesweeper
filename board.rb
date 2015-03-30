@@ -48,8 +48,6 @@ class Board
     @board[row]
   end
 
-
-
   private
 
   def create_board
@@ -82,7 +80,7 @@ class Board
     end
 
     pairs.each do |pair|
-      @board[pair.first][pair.last].bomb_count = nil
+      @board[pair.first][pair.last].bomb = true
     end
 
     nil

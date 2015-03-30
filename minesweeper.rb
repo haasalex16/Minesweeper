@@ -23,7 +23,7 @@ class MineSweeper
       end_time = Time.now
       total_time = end_time - start_time
 
-      puts "Total Time: #{total_time}"
+      puts "Total Time: #{total_time} Seconds"
 
     else
       puts "Sorry buddy..."
@@ -31,14 +31,9 @@ class MineSweeper
 
     @board.show_board
     display
-
   end
 
-
   private
-
-
-
 
   def make_move(input)
     move = input.first
@@ -72,7 +67,7 @@ class MineSweeper
   def display
     display_board = @board.create_display_screen
 
-    puts "_||#{(0..8).to_a.join("|")}||"
+    puts "_||#{(0...Board::BOARD_SIZE).to_a.join("|")}||"
     display_board.each.with_index do |row, idx|
       puts "#{idx}||" + row.join("|") + "||"
     end

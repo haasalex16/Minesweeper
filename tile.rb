@@ -1,7 +1,7 @@
 require 'byebug'
 
 class Tile
-   attr_accessor :bomb_count, :flagged, :revealed
+   attr_accessor :bomb_count, :flagged, :revealed, :bomb
 
    NEIGHBORS = [
      [1,1],
@@ -17,6 +17,7 @@ class Tile
   def initialize(board, pos)
      @board = board
      @bomb_count = 0
+     @bomb = false
      @flagged = false
      @revealed = false
      @position = pos
@@ -37,10 +38,10 @@ class Tile
 
   def render_display_square
     if revealed?
-      if bomb_count == 0
-        "_"
-      elsif bomb_count.nil?
+      if bombed?
         'B'
+      elsif bomb_count == 0
+        '_'
       else
         bomb_count.to_s
       end
@@ -66,7 +67,7 @@ class Tile
       new_pos = [@position.first + neighbor.first, @position.last + neighbor.last]
 
       if Board.valid_position?(new_pos)
-        tile = @board.board[new_pos.first][new_pos.last]
+        tile = @board[new_pos.first][new_pos.last]
         valid_neighbors << tile
       end
     end
@@ -74,13 +75,8 @@ class Tile
     valid_neighbors
   end
 
-  # def valid_neighbor?(pos)
-  #   pos.first.between?(0, Board::BOARD_SIZE - 1) &&
-  #   pos.last.between?(0, Board::BOARD_SIZE - 1)
-  # end
-
   def bombed?
-    bomb_count.nil?
+    @bomb
   end
 
   def revealed?
