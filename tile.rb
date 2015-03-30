@@ -1,7 +1,7 @@
 require 'byebug'
 
 class Tile
-   attr_accessor :bomb_count, :flagged
+   attr_accessor :bomb_count, :flagged, :revealed
 
    NEIGHBORS = [
      [1,1],

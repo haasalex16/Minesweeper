@@ -74,8 +74,9 @@ class MineSweeper
       end
 
     end
-    display_board.each do |row|
-      puts "||" + row.join("|") + "||"
+    puts "_||#{(0..8).to_a.join("|")}||"
+    display_board.each.with_index do |row, idx|
+      puts "#{idx}||" + row.join("|") + "||"
     end
   end
 
@@ -92,7 +93,7 @@ class MineSweeper
 
     else
       if tile.flagged?
-        'f'
+        'F'
       else
         "*"
       end
