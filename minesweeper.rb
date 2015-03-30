@@ -61,8 +61,22 @@ class MineSweeper
   end
 
   def read_input
-    puts "choose square to reveal(r), flag(f), or unflag(u) ex: f 1 2"
-    gets.chomp.split
+    while true
+      puts "choose square to reveal(r), flag(f), or unflag(u) ex: f 1 2"
+      input = gets.chomp.downcase.split
+      break if valid_input?(input)
+      puts "Please provide proper input"
+    end
+
+    input
+  end
+
+  def valid_input?(input)
+    return false unless input.count == 3
+    choice = input[0]
+    nums = [input[1].to_i, input[2].to_i]
+    (choice == 'f' || choice == 'u' || choice == "r") &&
+    nums.all? {|el| el.between?(0,8)}
   end
 
   def display
