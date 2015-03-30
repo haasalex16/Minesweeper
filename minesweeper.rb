@@ -10,38 +10,33 @@ class MineSweeper
 
   def play
     output = true
-    until output == false || game_won?
+    start_time = Time.now
+
+    until output == false || @board.game_won?
       display
       input = read_input
       output = make_move(input)
     end
 
+    if @board.game_won?
+      puts "You Win! Congrats!"
+      end_time = Time.now
+      total_time = end_time - start_time
+
+      puts "Total Time: #{total_time}"
+
+    else
+      puts "Sorry buddy..."
+    end
+
     @board.show_board
     display
 
-    if game_won?
-      puts "You Win! congrats"
-    else
-      puts "Sorry buddy"
-    end
   end
 
 
   private
 
-  def game_won?
-    # make sure everything is revealed or
-    revealed_count = 0
-
-    @board.board.each_with_index do |row, row_idx|
-      row.count.times do |col_idx|
-        tile = @board.board[row_idx][col_idx]
-        revealed_count += 1 if tile.revealed?
-      end
-    end
-
-    revealed_count == 81 - Board::BOMB_COUNT
-  end
 
 
 
@@ -79,7 +74,7 @@ class MineSweeper
     nums = [input[1].to_i, input[2].to_i]
 
     (choice == 'f' || choice == 'u' || choice == "r") &&
-    nums.all? { |el| el.between?(0, 8) }
+    Board.valid_position?(nums)
   end
 
   def display
@@ -93,23 +88,10 @@ class MineSweeper
 
   def create_display_screen
     @board.board.map do |row|
-      row.map { |tile| display_square(tile) }
+      row.map { |tile| tile.render_display_square }
     end
   end
 
-  def display_square(tile)
-    if tile.revealed?
-      if tile.bomb_count == 0
-        "_"
-      elsif tile.bomb_count.nil?
-        'B'
-      else
-        tile.bomb_count.to_s
-      end
-    else
-      tile.flagged? ? 'F' : '*'
-    end
-  end
 end
 
 if __FILE__ == $PROGRAM_NAME

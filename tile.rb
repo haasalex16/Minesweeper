@@ -22,8 +22,22 @@ class Tile
      @position = pos
   end
 
+  def render_display_square
+    if revealed?
+      if bomb_count == 0
+        "_"
+      elsif bomb_count.nil?
+        'B'
+      else
+        bomb_count.to_s
+      end
+    else
+      flagged? ? 'F' : '*'
+    end
+  end
+
   def bomb_counter
-    return nil if @bomb_count.nil?
+    return nil if bombed?
 
     create_neighbors.each do |neighbor|
       @bomb_count += 1 if neighbor.bombed?
@@ -38,7 +52,7 @@ class Tile
     NEIGHBORS.each do |neighbor|
       new_pos = [@position.first + neighbor.first, @position.last + neighbor.last]
 
-      if valid_neighbor?(new_pos)
+      if Board.valid_position?(new_pos)
         tile = @board.board[new_pos.first][new_pos.last]
         valid_neighbors << tile
       end
@@ -47,9 +61,10 @@ class Tile
     valid_neighbors
   end
 
-  def valid_neighbor?(pos)
-    pos.first.between?(0, 8) && pos.last.between?(0, 8)
-  end
+  # def valid_neighbor?(pos)
+  #   pos.first.between?(0, Board::BOARD_SIZE - 1) &&
+  #   pos.last.between?(0, Board::BOARD_SIZE - 1)
+  # end
 
   def bombed?
     bomb_count.nil?

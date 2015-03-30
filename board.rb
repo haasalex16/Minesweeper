@@ -3,9 +3,14 @@ require './tile'
 class Board
   attr_reader :board
   BOMB_COUNT = 10
+  BOARD_SIZE = 9
+
+  def self.valid_position?(pos)
+    pos.all? { |num| num.between?(0, BOARD_SIZE - 1) }
+  end
 
   def initialize
-    @board = Array.new(9) {Array.new(9)}
+    @board = Array.new(BOARD_SIZE) { Array.new(BOARD_SIZE) }
     create_board
   end
 
@@ -18,6 +23,21 @@ class Board
 
     nil
   end
+
+  def game_won?
+    # make sure everything is revealed or
+    revealed_count = 0
+
+    @board.each_with_index do |row, row_idx|
+      row.count.times do |col_idx|
+        tile = @board[row_idx][col_idx]
+        revealed_count += 1 if tile.revealed?
+      end
+    end
+
+    revealed_count == BOARD_SIZE - BOMB_COUNT
+  end
+
 
   private
 
@@ -46,7 +66,7 @@ class Board
   def assign_bombs
     pairs = []
     until pairs.length == BOMB_COUNT
-      new_pair = [rand((0...9)),rand((0...9))]
+      new_pair = [rand((0...BOARD_SIZE)),rand((0...BOARD_SIZE))]
       pairs << new_pair unless pairs.include?(new_pair)
     end
 
