@@ -15,6 +15,10 @@ class MineSweeper
     until output == false || @board.game_won?
       display
       input = read_input
+      if input.first == 's'
+        puts "Game saved. Please load on next start to continue"
+        return
+      end
       output = make_move(input)
     end
 
@@ -45,7 +49,8 @@ class MineSweeper
 
   def read_input
     while true
-      puts "choose square to reveal(r), flag(f), or unflag(u) ex: f 1 2"
+      puts "Choose square to reveal(r), flag(f), or unflag(u) ex: f 1 2"
+      puts "Please press 's' to save a quit game."
       input = gets.chomp.downcase.split
       break if valid_input?(input)
       puts "Please provide proper input"
@@ -55,6 +60,7 @@ class MineSweeper
   end
 
   def valid_input?(input)
+    return true if input.first == 's'
     return false unless input.count == 3
 
     choice = input[0]
