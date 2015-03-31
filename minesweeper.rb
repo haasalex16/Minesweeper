@@ -1,4 +1,5 @@
 require './board'
+require 'yaml'
 
 class MineSweeper
 
@@ -11,12 +12,17 @@ class MineSweeper
   def play
     output = true
     start_time = Time.now
+    puts "Press 'l' to load previous game or 'n' to start a new game"
+    if gets.chomp.downcase == 'l'
+      @board = YAML::load(File.read('saved-game.txt'))
+    end
 
     until output == false || @board.game_won?
       display
       input = read_input
       if input.first == 's'
         puts "Game saved. Please load on next start to continue"
+        save
         return
       end
       output = make_move(input)
@@ -39,6 +45,14 @@ class MineSweeper
 
   private
 
+  def save
+    serialized_game = @board.to_yaml
+    f = File.open("saved-game.txt", "w")
+    f.puts serialized_game
+    f.close
+  end
+
+
   def make_move(input)
     move = input.first
     position = [input[1].to_i, input[2].to_i]
@@ -50,7 +64,7 @@ class MineSweeper
   def read_input
     while true
       puts "Choose square to reveal(r), flag(f), or unflag(u) ex: f 1 2"
-      puts "Please press 's' to save a quit game."
+      puts "Please press 's' to save and quit game."
       input = gets.chomp.downcase.split
       break if valid_input?(input)
       puts "Please provide proper input"
